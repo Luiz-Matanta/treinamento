@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+
+* {
+margin: 0;
+border: 0;
+padding: 0
+}
+
+
+
+#updated1{
+position: relative;
+padding: 4px;
+margin: 12px 8px 0px;
+border: 1px solid black;
+border-radius: 8px;
+text-align: center;
+font-weight: bold;
+background-color: rgba(121, 172, 206, 0.7);
+}
+
+
+
+td:nth-child(1) {
+text-align: left;
+max-width: 50px;
+}
+
+
+
+th,
+td {
+border: 1px solid black;
+border-radius: 8px;
+text-align: center;
+padding: 4px;
+max-width: 8px;
+}
+
+
+
+table {
+position: absolute;
+width: 100%;
+border-collapse: separate;
+border-spacing: 1px;
+}
+
+
+
+th {
+background-color:rgba(252, 174, 6, 0.7);
+
+}
+
+
+
+td {
+background-color: rgba(225, 234, 235, 0.7);
+}
+
+
+
+tr:hover {
+font-weight: bold;
+cursor: pointer;
+}
+
+</style>
+</head>
+<body>
+<p>&nbsp;</p>
+<p style="text-align: center;"><br /><img src="blob:http://fazendaalegria.thingable.com/35613654-af5d-4b5d-a91d-aaa363d25ef3" alt="Logo" width="274" height="173" />&nbsp;<span style="font-size: 36pt;"><strong><span style="font-family: arial, helvetica, sans-serif;">Extrato da Gera&ccedil;&atilde;o Fotovoltaica</span></strong></span></p>
+<table id="level-table1"></table>
+<p>
+<script>// <![CDATA[
+function generateLevel1Table() {
+
+
+
+
+
+url = 'http://shared.concertcloud.com.br/applications/logicBuilder/testefazendaDados'
+
+
+
+
+let xhttp = new XMLHttpRequest()
+let currentDateTime = new Date().toLocaleString()
+xhttp.open("GET", url, true);
+
+
+
+xhttp.onreadystatechange = function () {
+if (xhttp.readyState == 4) {
+if (xhttp.status = 200) {
+let table = document.getElementById("level-table1")
+let tableData = JSON.parse(xhttp.responseText);
+
+function generateTHead1(table) {
+                    let tHead = table.createTHead()
+                    let headRow = tHead.insertRow()
+                    let headName = document.createElement("th")
+                    let headText = document.createTextNode("Cliente")
+                    headName.appendChild(headText)
+                    headRow.appendChild(headName)
+
+                    let head05M = document.createElement("th")
+                    let headText05 = document.createTextNode("Geração (kWh)")
+                    head05M.appendChild(headText05)
+                    headRow.appendChild(head05M)
+
+                    let head10M = document.createElement("th")
+                    let headText10 = document.createTextNode("Consumo Total (kWh)")
+                    head10M.appendChild(headText10)
+                    headRow.appendChild(head10M)
+
+                    let head15M = document.createElement("th")
+                    let headText15 = document.createTextNode("Percentual das Instalações (R$)")
+                    head15M.appendChild(headText15)
+                    headRow.appendChild(head15M)
+
+                    let head20M = document.createElement("th")
+                    let headText20 = document.createTextNode("Energia Injetada (R$)")
+                    head20M.appendChild(headText20)
+                    headRow.appendChild(head20M)
+
+                    let head25M = document.createElement("th")
+                    let headText25 = document.createTextNode("Percentual Usina Maior (%)")
+                    head25M.appendChild(headText25)
+                    headRow.appendChild(head25M)
+
+                    let head30M = document.createElement("th")
+                    let headText30M = document.createTextNode("Percentual Usina Menor(%)")
+                    head30M.appendChild(headText30M)
+                    headRow.appendChild(head30M)
+  
+                }
+
+
+
+
+function createTable1(table, data) {
+
+
+
+const casa = data
+const new0 = ["Apartamento Bernardo","Apartamento Evando","Apartamento Helena","Apartamento José e Laura","	Unidade Consumidora - SA 1003","Unidade Consumidora - SA 1004","	Unidade Consumidora - SA 1005","	Unidade Geradora - Horta","Unidade Geradora - Orquidario","	Unidade Geradora - Portaria"]
+let temp = []
+temp [0]= casa.slice(0,6)
+temp [1]= casa.slice(6,12)
+temp [2]= casa.slice(12,18)
+temp [3]= casa.slice(18,24)
+temp [4]= casa.slice(24,30)
+temp [5]= casa.slice(30,36)
+temp [6]= casa.slice(36,42)
+temp [7]= casa.slice(42,48)
+temp [8]= casa.slice(48,54)
+temp [9]= casa.slice(54,60)
+
+
+var x = 0
+
+for (let station of new0) {
+   
+
+    let row = table.insertRow();
+    let cell0 = row.insertCell()
+    let title0 = document.createTextNode(station)
+    cell0.appendChild(title0)
+for (let cliente of temp[x]) {
+
+    let row2 = table.insertRow();
+    let cell2 = row.insertCell()
+    let title2 = document.createTextNode(cliente.value)
+    cell2.appendChild(title2)
+
+}
+
+
+
+x++ 
+} x=0
+}
+
+
+
+
+createTable1(table, tableData)
+generateTHead1(table)
+generateTHead2(table)
+
+const tBody = document.querySelector("tbody")
+let bodyRows = tBody.querySelectorAll("tr")
+let newRows = []
+for (let row of bodyRows) {
+newRows.push(Array.from(row.cells).slice(1, row.length))
+}
+
+
+}
+
+
+
+}
+}
+
+
+
+xhttp.send()
+}
+generateLevel1Table()
+
+
+
+
+setInterval(() => {
+document.getElementById("level-table1").innerHTML =''
+generateLevel1Table()
+}, 300000)
+// ]]></script>
+</p>
+</body>
+</html>

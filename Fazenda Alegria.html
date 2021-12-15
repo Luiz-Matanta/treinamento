@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+
+* {
+margin: 0;
+border: 0;
+padding: 0
+}
+
+
+
+#updated1{
+position: relative;
+padding: 4px;
+margin: 12px 8px 0px;
+border: 1px solid black;
+border-radius: 8px;
+text-align: center;
+font-weight: bold;
+background-color: rgba(121, 172, 206, 0.7);
+}
+
+
+
+td:nth-child(1) {
+text-align: left;
+max-width: 50px;
+}
+
+
+
+th,
+td {
+border: 1px solid black;
+border-radius: 8px;
+text-align: center;
+padding: 4px;
+max-width: 8px;
+}
+
+
+
+table {
+position: absolute;
+width: 100%;
+border-collapse: separate;
+border-spacing: 8px;
+}
+
+
+
+th {
+background-color: rgba(121, 172, 206, 0.7);
+
+}
+
+
+
+td {
+background-color: rgba(225, 234, 235, 0.7);
+}
+
+
+
+tr:hover {
+font-weight: bold;
+cursor: pointer;
+}
+
+
+
+</style>
+</head>
+<body>
+<p>&nbsp;</p>
+<div class="label-container">
+<table style="height: 402px; width: 1024.61px; margin-left: auto; margin-right: auto;" border="1px">
+<tbody>
+<tr style="height: 3px;">
+<td style="width: 256px; height: 3px;"><img style="display: block; margin-left: auto; margin-right: auto;" src="blob:http://fazendaalegria.thingable.com/dbf6590d-16be-4b49-95b0-8f7bdd9f776a" alt="Logo" width="162" height="102" /></td>
+<td style="width: 1035.61px; height: 3px; text-align: center;" colspan="7"><span style="font-size: 18pt;"><strong><span style="font-family: arial, helvetica, sans-serif;">Extrato da Gera&ccedil;&atilde;o Fotovoltaica - Mar&ccedil;o 2021</span></strong></span><hr />14:26:10&nbsp; &nbsp; &nbsp; &nbsp; 2021-08-20</td>
+</tr>
+<tr style="height: 21px;">
+<td style="width: 256px; height: 21px; background-color: #f2b31f; text-align: center; vertical-align: middle;"><span style="font-size: 12pt;"><strong><span style="font-family: arial, helvetica, sans-serif;">Cliente</span></strong></span></td>
+<td style="width: 115px; height: 21px; background-color: #f2b31f; text-align: center; vertical-align: middle;"><span style="font-size: 12pt;"><strong><span style="font-family: arial, helvetica, sans-serif;">Gera&ccedil;&atilde;o (kW)</span></strong></span></td>
+<td style="width: 167px; height: 21px; background-color: #f2b31f; text-align: center; vertical-align: middle;"><span style="font-size: 12pt;"><strong><span style="font-family: arial, helvetica, sans-serif;">Consumo Total (kWh)</span></strong></span></td>
+<td style="width: 242px; height: 21px; background-color: #f2b31f; text-align: center; vertical-align: middle;"><span style="font-size: 12pt;"><strong><span style="font-family: arial, helvetica, sans-serif;">Percentual das Instala&ccedil;&otilde;es (%)</span></strong></span></td>
+<td style="width: 166px; height: 21px; background-color: #f2b31f; text-align: center; vertical-align: middle;"><span style="font-size: 12pt;"><strong><span style="font-family: arial, helvetica, sans-serif;">Energia Injetada (R$)</span></strong></span></td>
+<td style="width: 159px; height: 21px; background-color: #f2b31f; text-align: center; vertical-align: middle;"><span style="font-size: 12pt;"><strong><span style="font-family: arial, helvetica, sans-serif;">Valor da Conta (R$)</span></strong></span></td>
+<td style="width: 159px; height: 21px; background-color: #f2b31f; text-align: center; vertical-align: middle;"><span style="font-size: 12pt;"><strong><span style="font-family: arial, helvetica, sans-serif;">Percentual Usina Maior (%)</span></strong></span></td>
+<td style="width: 27.6125px; height: 21px; background-color: #f2b31f; text-align: center; vertical-align: middle;"><span style="font-size: 12pt;"><strong><span style="font-family: arial, helvetica, sans-serif;">Percentual Usina Menor (%)</span></strong></span></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="label-container">&nbsp;</div>
+<div class="label-container">&nbsp;</div>
+<div class="label-container">&nbsp;</div>
+<div class="label-container">&nbsp;</div>
+<div class="label-container">&nbsp;</div>
+<div class="label-container">&nbsp;</div>
+<div class="label-container">&nbsp;</div>
+<div class="label-container">&nbsp;</div>
+<div class="label-container">&nbsp;</div>
+<div class="label-container">&nbsp;</div>
+<div class="label-container">&nbsp;</div>
+<div class="label-container">&nbsp;</div>
+<div class="label-container">&nbsp;</div>
+<div class="label-container">&nbsp;</div>
+<div class="label-container">&nbsp;</div>
+<div class="label-container">&nbsp;</div>
+<div class="label-container">&nbsp;</div>
+<div class="label-container">&nbsp;</div>
+<div class="label-container">&nbsp;</div>
+<div class="label-container">&nbsp;</div>
+<div id="updated1">&nbsp;14:26:10&nbsp; &nbsp; &nbsp; &nbsp; 2021-08-20</div>
+<table id="level-table1"></table>
+<p>
+<script>// <![CDATA[
+function generateLevel1Table() {
+
+
+
+
+
+url = 'http://shared.concertcloud.com.br/applications/logicBuilder/testefazendaDados'
+
+
+
+
+let xhttp = new XMLHttpRequest()
+let currentDateTime = new Date().toLocaleString()
+xhttp.open("GET", url, true);
+
+
+
+xhttp.onreadystatechange = function () {
+if (xhttp.readyState == 4) {
+if (xhttp.status = 200) {
+let table = document.getElementById("level-table1")
+let tableData = JSON.parse(xhttp.responseText);
+
+
+
+
+
+
+function createTable1(table, data) {
+
+for (let station of data) {
+let row = table.insertRow();
+let cell1 = row.insertCell()
+let title = document.createTextNode(station.tag)
+cell1.appendChild(title)
+let cell = row.insertCell();
+let text = document.createTextNode(station.value)
+cell.appendChild(text);
+}
+}
+
+
+
+createTable1(table, tableData)
+generateTHead1(table)
+const tBody = document.querySelector("tbody")
+let bodyRows = tBody.querySelectorAll("tr")
+let newRows = []
+for (let row of bodyRows) {
+newRows.push(Array.from(row.cells).slice(1, row.length))
+}
+
+
+}
+
+
+
+}
+}
+
+
+
+xhttp.send()
+}
+generateLevel1Table()
+
+
+
+setInterval(() => {
+document.getElementById("level-table1").innerHTML =''
+generateLevel1Table()
+}, 300000)
+// ]]></script>
+</p>
+</body>
+</html>

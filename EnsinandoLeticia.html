@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html>
+   <head>
+      <style>
+         * {
+			 margin: 0;
+			 border: 0;
+			 padding: 0
+         }
+         .label-container {
+			 position: relative;
+			 margin: 16px  auto;
+			 display: grid;
+			 grid-template-columns: 100px 100px 100px 100px 100px 100px 143px;
+			 grid-column-gap: 16px;
+			 grid-row-gap: 4px;
+			 grid-column-start: 7;
+			 text-align: center;
+			 justify-content: center;
+			 justify-items: center;
+			 align-items: center;
+         }
+         .label-container:hover {
+			cursor: pointer;
+         }
+         #title {
+			padding: 4px;
+			font-weight: bold;
+         }
+         #no-data, #first, #second, #third, #fourth, #fifth {
+			 height: 24px;
+			 width: 24px;
+			 border: 1px solid black;
+			 border-radius: 24px;
+			 padding: 4px;
+			 font-weight: bold;
+			 text-align: center;
+         }
+         p {
+			font-weight: bold;
+         }
+         #no-data {
+			background-color: rgba(0, 0, 0, 0.3);
+         }
+         #first {
+			background-color: rgba(225, 234, 235, 0.7);
+         }
+         #second {
+			background-color: rgba(38, 197, 67, 0.7);
+         }
+         #third {
+			background-color: rgba(240, 223, 34, 0.7);
+         }
+         #fourth {
+			background-color: rgba(245, 168, 24, 0.7);
+         }
+         #fifth {
+			background-color: rgba(255, 64, 31, 0.7);
+         }
+         #tooltip {
+			 visibility: hidden;
+			 width: 280px;
+			 color: black;
+			 text-align: left;
+			 border-radius: 6px;
+			 padding: 5px ;
+			 position: absolute;
+			 z-index: 1;
+			 top: 100%;
+			 left: 50%;
+			 margin-left: -140px;
+			 opacity: 0;
+			 transition: opacity 0.5s;
+         }
+         #second:hover #tooltip {
+			 visibility: visible;
+			 opacity: 1;
+			 background-color:rgba(38, 197, 67, 0.9);
+         }
+         #third:hover #tooltip {
+			 visibility: visible;
+			 opacity: 1;
+			 background-color: rgba(240, 223, 34, 0.9);
+			 margin-left: -12px;
+         }
+         #fourth:hover #tooltip {
+			 visibility: visible;
+			 opacity: 1;
+			 background-color:rgba(245, 168, 24, 0.9);
+			 margin-left: 90px;
+         }
+         #fifth:hover #tooltip {
+			 visibility: visible;
+			 opacity: 1;
+			 background-color:rgba(255, 64, 31, 0.9);
+			 margin-left: 240px;
+			 width: 210px;
+			 font-weight: bold;
+         }
+         #updated{
+			 position: relative;
+			 padding: 4px;
+			 margin: 12px 8px 0px;
+			 border: 1px solid black;
+			 border-radius: 8px;
+			 text-align: center;
+			 font-weight: bold;
+			 background-color: rgba(121, 172, 206, 0.7);
+         }
+         td:nth-child(1) {
+			 text-align: left;
+			 max-width: 50px;
+         }
+         th, td {
+			 border: 1px solid black;
+			 border-radius: 8px;
+			 text-align: center;
+			 padding: 4px;
+			 max-width: 8px;
+         }
+         table {
+			 position: absolute;
+			 width: 100%;
+			 border-collapse: separate;
+			 border-spacing: 8px;
+         }
+         th {
+			background-color: rgba(121, 172, 206, 0.7);
+         }
+         td {
+			background-color: rgba(225, 234, 235, 0.7);
+         }
+         tr:hover {
+			 font-weight: bold;
+			 cursor: pointer;
+         }
+      </style>
+	  
+      <script>// <![CDATA[
+         function getData(idTable) {
+
+             url = 'http://shared.concertcloud.com.br/applications/logicBuilder/hobecoDados?chuva&&appConfigId=731'
+            
+             let xhttp = new XMLHttpRequest()             
+             xhttp.onreadystatechange = function () {
+                 if (xhttp.readyState == 4 && xhttp.status == 200) {
+
+                         function generateTHead(table) {
+							const columns = ['Regionais', '05 min', '10 min', '20 min', '30 min', '45 min', '1 hr', '2 hrs', '4 hrs', '6 hrs', '12 hrs', '24 hrs', '48 hrs']
+                            let headRow = table.createTHead().insertRow()
+							for (let label of columns) {
+								let th = document.createElement("th")
+								th.appendChild(document.createTextNode(label))
+								headRow.appendChild(th)
+							}
+                         }
+         
+                         function populateTable(table, data) {
+							table.innerHTML = ""
+                             for (let station of Object.keys(data)) {
+                                 let row = table.insertRow()
+								 row.insertCell().appendChild(document.createTextNode(station))
+                                 for (let values of data[station]) row.insertCell().appendChild(document.createTextNode(values.sum))
+                             }
+                         }
+         
+                         let table = document.getElementById(idTable)
+                         let tableData = JSON.parse(xhttp.responseText)
+                         populateTable(table, tableData)
+                         if (!table.querySelector("thead")) generateTHead(table)
+
+                         const tBody = table.querySelector("tbody")
+                         let bodyRows = tBody.querySelectorAll("tr")
+                         let newRows = []
+                         for (let row of bodyRows) {
+                             newRows.push(Array.from(row.cells).slice(1, row.length))
+                         }
+         
+                         function setColour(rows, column, val1 = 0, val2 = 0.1, val3, val4, val5, val6, val7) {
+							const yellow = "rgba(240, 223, 34, 0.7)"
+							const orange = "rgba(245, 168, 24, 0.7)"
+							const red = "rgba(255, 64, 31, 0.7)"
+							const green = "rgba(53, 232, 86, 0.7)"
+							const darkGrey = "rgba(0, 0, 0, 0.3)"
+							const lightGrey = "rgba(225, 234, 235, 0.7)"
+  
+							for (let row of rows) {
+                                 let position = row[column] //linha na posição desejada
+                                 let value = parseFloat(position.textContent) // valor da célula na posição
+                                 if (position.textContent == 'S/D') {
+                                     position.style.backgroundColor = darkGrey
+                                 } else if (value == val1) {
+                                     position.style.backgroundColor = lightGrey
+                                 } else if (value >= val2 && value <= val3) {
+                                     position.style.backgroundColor = green
+                                 } else if (value >= val4 && value <= val5) {
+                                     position.style.backgroundColor = yellow
+                                 } else if (value >= val6 && value <= val7) {
+                                     position.style.backgroundColor = orange
+                                 } else if (value > val7) {
+                                     position.style.backgroundColor = red
+                                 }
+                             }
+                         }
+         
+                         setColour(newRows, 0, 0, 0.1, 1, 1.1, 2.5, 2.6, 5.0) // 5
+                         setColour(newRows, 1, 0, 0.1, 2, 2.1, 5, 5.1, 10) //10
+                         setColour(newRows, 2, 0, 0.1, 4, 4.1, 10, 10.1, 20) //20
+                         setColour(newRows, 3, 0, 0.1, 6, 6.1, 15, 15.1, 30) //30
+                         setColour(newRows, 4, 0, 0.1, 9, 9.1, 22.5, 22.6, 45) //45
+                         setColour(newRows, 5, 0, 0.1, 12, 12.1, 30, 30.1, 60) //1h
+                         setColour(newRows, 6, 0, 0.1, 12, 12.1, 30, 30.1, 60) //2h
+                         setColour(newRows, 7, 0, 0.1, 12, 12.1, 30, 30.1, 60) //4h
+                         setColour(newRows, 8, 0, 0.1, 12, 12.1, 30, 30.1, 60) //6h
+                         setColour(newRows, 9, 0, 0.1, 12, 12.1, 30, 30.1, 60) //12h
+                         setColour(newRows, 10, 0, 0.1, 12, 12.1, 30, 30.1, 60) //24h
+                         setColour(newRows, 11, 0, 0.1, 12, 12.1, 30, 30.1, 60) //48h
+         
+                         document.getElementById("updated").textContent = 'Acumulado de Chuva (mm) - ' + new Date().toLocaleString('pt')
+                     }
+             }
+			 
+			 xhttp.open("GET", url, true)
+             xhttp.send()
+         }
+		 getData('rain-table')
+         myInterval = setInterval(()=>getData('rain-table'), 300000);
+		 
+         function close() {
+			clearInterval(myInterval)
+		} 
+         // ]]>
+      </script>
+	  
+   </head>
+   <body onunload="close()">
+<div class="label-container">
+<div id="title">Legenda:</div>
+<div id="no-data">&nbsp;</div>
+<div id="first">&nbsp;</div>
+<div id="second">
+<div id="tooltip" class="tooltiptext-second">
+<p>5 minutos: 0.1 mm - 1.0 mm</p>
+<p>10 minutos: 0.1 mm - 2.0 mm</p>
+<p>20 minutos: 0.1 mm - 4.0 mm</p>
+<p>30 minutos: 0.1 mm - 6.0 mm</p>
+<p>45 minutos: 0.1 mm - 9.0 mm</p>
+<p>1 hora - 48 horas: 0.1 mm - 12.0 mm</p>
+</div>
+</div>
+<div id="third">
+<div id="tooltip" class="tooltiptext-third">
+<p>5 minutos: 1.1 mm - 2.5 mm</p>
+<p>10 minutos: 2.1 mm - 5.0 mm</p>
+<p>20 minutos: 4.1 mm - 10.0 mm</p>
+<p>30 minutos: 6.1 mm - 15.0 mm</p>
+<p>45 minutos: 9.1 mm - 22.5 mm</p>
+<p>1 hora - 48 horas: 12.1 mm - 30.0 mm</p>
+</div>
+</div>
+<div id="fourth">
+<div id="tooltip" class="tooltiptext-fourth">
+<p>5 minutos: 2.6 mm - 5.0 mm</p>
+<p>10 minutos: 5.1 mm - 10.0 mm</p>
+<p>20 minutos: 10.1 mm - 20.0 mm</p>
+<p>30 minutos: 15.1 mm - 30.0 mm</p>
+<p>45 minutos: 22.6 mm - 45.0 mm</p>
+<p>1 hora - 48 horas: 30.1 mm - 60.0 mm</p>
+</div>
+</div>
+<div id="fifth">
+<div id="tooltip" class="tooltiptext-fifth">
+<p>5 minutos: &gt; 5.0 mm</p>
+<p>10 minutos: &gt; 10.0 mm</p>
+<p>20 minutos: &gt; 20.0 mm</p>
+<p>30 minutos: &gt; 30.0 mm</p>
+<p>45 minutos: &gt; 45.0 mm</p>
+<p>1 hora - 48 horas: &gt; 60.0 mm</p>
+</div>
+</div>
+<p class="space1">&nbsp;</p>
+<p class="item1">Sem Dados</p>
+<p class="item2">Sem Chuva</p>
+<p class="item3">Fraca</p>
+<p class="item4">Moderada</p>
+<p class="item5">Forte</p>
+<p class="item6">Extremamente Forte</p>
+</div>
+<div id="updated">&nbsp;</div>
+<table id="rain-table"></table>
+</body>
+</html>
