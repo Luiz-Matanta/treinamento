@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+ {
+margin: 0;
+border: 0;
+padding: 0
+}
+td:nth-child(1) {
+text-align: left;
+max-width: 100px;
+}
+table {
+<p style="text-align: center;">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<strong>
+position: absolute;
+width: 6%;
+border-collapse: separate;
+border-spacing: 8px;
+}
+tr:hover {
+font-weight: bold;
+cursor: pointer;
+}
+</style>
+</head>
+<body>
+<div id="updated1">
+<p style="text-align: center;">&nbsp;&nbsp;<strong><span style="font-family: arial, helvetica, sans-serif;">Status da Esta&ccedil;&atilde;o:</span></strong></p>
+<table id="level-table1" style="margin-left: auto; margin-right: auto; height: 30px; color: gray; font-family: arial, helvetica, sans-serif;" width="93"></table>
+<p style="text-align: center;">
+<script>// <![CDATA[
+function generateLevel1Table() {
+url = 'http://fazendaalegria.thingable.com/applications/logicBuilder/hobeco_status'
+let xhttp = new XMLHttpRequest()
+let currentDateTime = new Date().toLocaleString()
+xhttp.open("GET", url, true);
+xhttp.onreadystatechange = function () {
+if (xhttp.readyState == 4) {
+if (xhttp.status = 200) {
+let table = document.getElementById("level-table1")
+let tableData = JSON.parse(xhttp.responseText);
+
+function createTable1(table, data) {
+
+for (let station of data) {
+let row = table.insertRow();
+let cell = row.insertCell();
+let tmp = "@file";
+let title = (tmp.split('.'))[0];
+
+let text = document.createTextNode(station[title])
+cell.appendChild(text);
+}
+}
+createTable1(table, tableData)
+generateTHead1(table)
+const tBody = document.querySelector("tbody")
+let bodyRows = tBody.querySelectorAll("tr")
+let newRows = []
+for (let row of bodyRows) {
+newRows.push(Array.from(row.cells).slice(1, row.length))
+}
+}
+
+
+
+}
+}
+
+
+
+xhttp.send()
+}
+generateLevel1Table()
+
+
+
+setInterval(() => {
+document.getElementById("level-table1").innerHTML =''
+generateLevel1Table()
+}, 300000)
+// ]]></script>
+</p>
+</div>
+</body>
+</html>x

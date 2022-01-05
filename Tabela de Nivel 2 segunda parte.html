@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html>
+   <head>
+      <style>
+        * {
+            margin: 0;
+            border: 0;
+            padding: 0
+        }
+
+        .label-container {
+            position: relative;
+            margin: 16px  auto;
+            display: grid;
+            grid-template-columns: 120px 120px 120px 120px 120px 120px 120px;
+            grid-column-gap: 16px;
+            grid-row-gap: 4px;
+            grid-column-start: 7;
+            text-align: center;
+            justify-content: center;
+            justify-items: center;
+            align-items: center;
+        }
+
+
+        .label-container:hover{
+            cursor: pointer;
+        }
+
+        #title {
+            padding: 4px;
+            font-weight: bold;
+        }
+
+        #no-data,
+        #first,
+        #second,
+        #third,
+        #fourth,
+        #fifth {
+            height: 24px;
+            width: 24px;
+            border: 1px solid black;
+            border-radius: 24px;
+            padding: 4px;
+            font-weight: bold;
+            text-align: center;
+        }
+        p {
+            font-weight: bold;
+        }
+       
+
+        #no-data {
+            background-color: rgba(0, 0, 0, 0.3);
+        }
+
+        #first {
+
+            background-color: rgba(225, 234, 235, 0.7);
+        }
+
+        #second {
+            background-color: rgba(240, 223, 34, 0.7);
+        }
+
+        #third {
+            background-color: rgba(245, 168, 24, 0.7);
+        }
+
+        #fourth {
+            background-color: rgba(255, 64, 31, 0.7);
+        }
+
+        #fifth {
+            background-color: rgba(131, 56, 236, 0.7);
+        }
+
+
+        #level2-updated {
+            position: relative;
+            padding: 4px;
+            margin: 12px 8px 0px;
+            border: 1px solid black;
+            border-radius: 8px;
+            text-align: center;
+            font-weight: bold;
+            background-color: rgba(121, 172, 206, 0.7);
+        }
+
+        td:nth-child(1) {
+            text-align: left;
+            max-width: 50px;
+        }
+
+        th, 
+        td {
+            border: 1px solid black;
+            border-radius: 8px;
+            text-align: center;
+            padding: 4px;
+            max-width: 8px;
+        }
+
+        table {
+            position: absolute;
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 8px;
+        }
+
+        th {
+            background-color: rgba(121, 172, 206, 0.7);
+                
+        }
+
+        td {
+            background-color: rgba(225, 234, 235, 0.7);
+        }
+
+        tr:hover {
+            font-weight: bold;
+            cursor: pointer;
+        }
+	  </style>
+</head>
+<body>
+<div class="label-container">
+<div>&nbsp;</div>
+<div>&nbsp;</div>
+<div>&nbsp;</div>
+<div>&nbsp;</div>
+<div>&nbsp;</div>
+<div>&nbsp;</div>
+<div>&nbsp;</div>
+<div id="title">Legenda (cm):</div>
+<div id="no-data">&nbsp;</div>
+<div id="first">&nbsp;</div>
+<div id="second">&nbsp;</div>
+<div id="third">&nbsp;</div>
+<div id="fourth">&nbsp;</div>
+<div id="fifth">&nbsp;</div>
+<p class="space1">&nbsp;</p>
+<p class="item1">Sem Dados</p>
+<p class="item2">Sem Alertas</p>
+<p class="item3">Moderado (50%)</p>
+<p class="item4">Alto (80%)</p>
+<p class="item5">M&aacute;ximo (100%)</p>
+<p class="item6">Extravasamento&nbsp;</p>
+</div>
+<table id="level-table2"></table>
+<p>
+<script>// <![CDATA[
+function getData(idTable) {
+            
+    url = 'http://shared.concertcloud.com.br/applications/logicBuilder/hobecoDados?nivel2&&appConfigId=731'
+
+             let xhttp = new XMLHttpRequest()             
+             xhttp.onreadystatechange = function () {
+                 if (xhttp.readyState == 4 && xhttp.status == 200) {
+
+                         function generateTHead(table) {
+							const columns = ['Regionais', '05 min', '10 min', '15 min', '20 min', '25 min', '30 min', '35 min', '40 min', '45 min', '50 min', '55 min']
+                            let headRow = table.createTHead().insertRow()
+							for (let label of columns) {
+								let th = document.createElement("th")
+								th.appendChild(document.createTextNode(label))
+								headRow.appendChild(th)
+							}
+                         }
+         
+                         function populateTable(table, data) {
+							table.innerHTML = ""
+                            console.log('a', Object.keys(data))
+                            estacao = Object.keys(data)
+                            newtabela = estacao.splice(3,1)
+                             for (let station of estacao) {
+                                 let row = table.insertRow()
+								 row.insertCell().appendChild(document.createTextNode(station))
+                                 for (let values of data[station]) row.insertCell().appendChild(document.createTextNode(values.value))
+                             }
+                         }
+         
+                         let table = document.getElementById(idTable)
+
+                         let tableData = JSON.parse(xhttp.responseText)
+                         populateTable(table, tableData)
+                         if (!table.querySelector("thead")) generateTHead(table)
+
+                         const tBody = table.querySelector("tbody")
+                         let bodyRows = tBody.querySelectorAll("tr")
+                         let newRows = []
+                         for (let row of bodyRows) newRows.push(Array.from(row.cells).slice(1, row.length))
+         
+
+						function setColor(iterable, reference) {
+							const noDataColour = "rgba(0, 0, 0, 0.3)"
+							const overflowColour = "rgba(131, 56, 236, 0.7)"
+							for (let element of iterable) {
+								let parsedValue = parseFloat(element.textContent)
+								if (element.textContent == 'S/D') {
+									element.style.backgroundColor = noDataColour 
+								} else if (parsedValue > reference) {
+									element.style.backgroundColor = overflowColour
+								} 
+							}
+						}
+					
+						setColor(newRows[0], 430)
+						setColor(newRows[1], 400)
+						setColor(newRows[2], 311)
+						setColor(newRows[3], 305)
+						setColor(newRows[4], 375)
+         
+                        document.getElementById("level2-updated").textContent = 'Nível 2 dos Córregos (cm) - ' + new Date().toLocaleString('pt')
+                     }
+             }
+			 
+			 xhttp.open("GET", url, true)
+             xhttp.send()
+         }
+		 getData('level2-table')
+         myInterval = setInterval(()=>getData('level2-table'), 300000);
+		 
+         function close() {
+			clearInterval(myInterval)
+		}
+// ]]></script>
+</p>
+<div id="level2-updated">&nbsp;</div>
+<table id="level2-table"></table>
+<p>&nbsp;</p>
+</body>
+</html>

@@ -87,8 +87,8 @@ function generateLevel1Table() {
     const thirdAlertColour = "rgba(255, 64, 31, 0.7)"
     const fourthAlertColour = "rgba(131, 56, 236, 0.7)"
 
-   //let url = 'http://shared.concertcloud.com.br/applications/logicBuilder/hobecoDados?nivel1&&appConfigId=731'
-     let url = 'http://localhost:1880/luizi'
+    let url = 'http://shared.concertcloud.com.br/applications/logicBuilder/hobecoDados?nivel1&&appConfigId=731'
+ 
     let xhttp = new XMLHttpRequest()
     let currentDateTime = new Date().toLocaleString()
     xhttp.open("GET", url, true);
@@ -99,12 +99,12 @@ function generateLevel1Table() {
                 let table = document.getElementById("level-table1")
                 let stationsData = JSON.parse(xhttp.responseText);
 
-                const tabelan = Object.values(stationsData)
-                const remove = tabelan.splice(7,1)
-             
+               const tabelan = Object.values(stationsData)
+              const remove = tabelan.splice(7,1)
+            
 
-                 console.log('oi',tabelan)
-                let tableData = tabelan //nome das regionais
+                // console.log('oi',tabelan)
+                let tableData = Object.values(tabelan) //nome das regionais
                 function generateTHead1(table) {
                     let tHead = table.createTHead()
                     let headRow = tHead.insertRow()
@@ -193,7 +193,7 @@ function generateLevel1Table() {
                 for (let row of bodyRows) {
                     newRows.push(Array.from(row.cells).slice(1, row.length))
                 }
-function setColor(iterable, reference, firstLimit, secondLimit, thirdLimit,fourthLimit, firstColour, secondColour, thirdColour,fourthColour) {
+function setColor(iterable, reference, firstLimit, secondLimit, thirdLimit, firstColour, secondColour, thirdColour) {
                     for (let element of iterable) {
                         
                         let parsedValue = (parseFloat(element.textContent) / reference) * 100
@@ -201,37 +201,33 @@ function setColor(iterable, reference, firstLimit, secondLimit, thirdLimit,fourt
                         let firstReference = (parseFloat(firstLimit / reference)) * 100
                         let secondReference = (parseFloat(secondLimit / reference)) * 100
                         let thirdReference = (parseFloat(thirdLimit / reference)) * 100
-                        let fourthReference = (parseFloat(fourthLimit / reference)) * 100
                         if (element.textContent == 'S/D') {
                             element.style.backgroundColor = noDataColour //cinza-escuro
                         } else if (parsedValue >= 30 && parsedValue < firstReference) {
                             element.style.backgroundColor = firstColour//amarelo
                         } else if (parsedValue >= firstReference && parsedValue < secondReference) {
                             element.style.backgroundColor = secondColour //laranja
-                        } else if (parsedValue >= secondReference || parsedValue < thirdReference) {
+                        } else if (parsedValue >= secondReference || parsedValue >= thirdReference) {
                             element.style.backgroundColor = thirdColour //vermelho
-                        }else if (parsedValue > thirdReference  ) {
-                            element.style.backgroundColor = fourthColour // roxo
-                          }
-                
+                        }
+                    }
                 }
-            }
+
                 function setColor2(iterable, reference, firstLimit, secondLimit, thirdLimit, fourthLimit, firstColour, secondColour, thirdColour, fourthColour) {
                     for (let element of iterable) {
                         let parsedValue = (parseFloat(element.textContent) / reference) * 100
                         let firstReference = (parseFloat(firstLimit / reference)) * 100
                         let secondReference = (parseFloat(secondLimit / reference)) * 100
                         let thirdReference = (parseFloat(thirdLimit / reference)) * 100
-                        let fourthReference = (parseFloat(fourthLimit / reference)) * 100
                         if (element.textContent == 'S/D') {
                             element.style.backgroundColor = noDataColour //cinza-escuro
                         } else if (parsedValue >= 30 && parsedValue < firstReference) {
                             element.style.backgroundColor = firstColour//amarelo
                         } else if (parsedValue >= firstReference && parsedValue < secondReference) {
                             element.style.backgroundColor = secondColour //laranja
-                        } else if (parsedValue >= secondReference || parsedValue < thirdReference) {
+                        } else if (parsedValue >= secondReference || parsedValue >= thirdReference) {
                             element.style.backgroundColor = thirdColour //vermelho
-                        } else if (parsedValue > thirdReference ) {
+                        } else if (parsedValue >= fourthLimit) {
                             element.style.backgroundColor = fourthColour // roxo
                           } else if (element.textContent == 'NaN') {
                             element.style.backgroundColor = noDataColour //cinza-escuro
@@ -242,27 +238,33 @@ function setColor(iterable, reference, firstLimit, secondLimit, thirdLimit,fourt
                 }
                
                
-                setColor2(newRows[0], 280, 140, 224, 281, firstAlertColour, secondAlertColour, thirdAlertColour,fourthAlertColour)
-                setColor2(newRows[1], 235, 118, 188, 235,  firstAlertColour, secondAlertColour, thirdAlertColour, fourthAlertColour)
-                setColor2(newRows[2], 250, 125, 200, 250,  firstAlertColour, secondAlertColour, thirdAlertColour, fourthAlertColour)
-                setColor2(newRows[3], 243, 122, 194, 243,  firstAlertColour, secondAlertColour, thirdAlertColour, fourthAlertColour)
-                setColor2(newRows[4], 450, 225, 360, 450, firstAlertColour, secondAlertColour, thirdAlertColour,fourthAlertColour,)
-                setColor2(newRows[5], 564, 282, 451, 564, firstAlertColour, secondAlertColour, thirdAlertColour,fourthAlertColour)
-                setColor2(newRows[6], 400, 200, 320, 400, firstAlertColour, secondAlertColour, thirdAlertColour,fourthAlertColour)
-                setColor2(newRows[7], 420, 210, 336, 580, firstAlertColour, secondAlertColour, thirdAlertColour,fourthAlertColour)
-                setColor2(newRows[8], 449, 225, 359, 560, firstAlertColour, secondAlertColour, thirdAlertColour,fourthAlertColour)
-                setColor2(newRows[9], 430, 215, 344, 430, firstAlertColour, secondAlertColour, thirdAlertColour,fourthAlertColour)
-                setColor2(newRows[10], 332, 166, 266, 370, firstAlertColour, secondAlertColour, thirdAlertColour,fourthAlertColour)
-                setColor2(newRows[11], 320, 160, 256, 320, firstAlertColour, secondAlertColour, thirdAlertColour,fourthAlertColour)
-                setColor2(newRows[12], 560, 280, 448, 638, firstAlertColour, secondAlertColour, thirdAlertColour,fourthAlertColour)
-                setColor2(newRows[13], 275, 138, 220, 275,  firstAlertColour, secondAlertColour, thirdAlertColour, fourthAlertColour)
-                setColor2(newRows[14], 300, 150, 240, 300,  firstAlertColour, secondAlertColour, thirdAlertColour, fourthAlertColour)
-                setColor2(newRows[15], 565, 283, 452, 622, firstAlertColour, secondAlertColour, thirdAlertColour,fourthAlertColour)
-                setColor2(newRows[16], 830, 415, 664, 830,  firstAlertColour, secondAlertColour, thirdAlertColour, fourthAlertColour)
-                setColor2(newRows[17], 692, 346, 554, 813, firstAlertColour, secondAlertColour, thirdAlertColour,fourthAlertColour)
-                setColor2(newRows[18], 760, 380, 608, 760, firstAlertColour, secondAlertColour, thirdAlertColour,fourthAlertColour)
-                setColor2(newRows[19], 310, 155, 248, 310,  firstAlertColour, secondAlertColour, thirdAlertColour, fourthAlertColour)
-                setColor2(newRows[20], 289, 145, 231, 289,  firstAlertColour, secondAlertColour, thirdAlertColour, fourthAlertColour)   
+                setColor(newRows[0], 280, 140, 224, 280, firstAlertColour, secondAlertColour, thirdAlertColour)
+                setColor2(newRows[1], 235, 118, 188, 235, 430, firstAlertColour, secondAlertColour, thirdAlertColour, fourthAlertColour)
+                setColor2(newRows[2], 250, 125, 200, 250, 400, firstAlertColour, secondAlertColour, thirdAlertColour, fourthAlertColour)
+                setColor2(newRows[3], 243, 122, 194, 243, 311, firstAlertColour, secondAlertColour, thirdAlertColour, fourthAlertColour)
+                setColor(newRows[4], 450, 225, 360, 450, firstAlertColour, secondAlertColour, thirdAlertColour)
+                setColor(newRows[5], 564, 282, 451, 564, firstAlertColour, secondAlertColour, thirdAlertColour)
+                setColor(newRows[6], 400, 200, 320, 400, firstAlertColour, secondAlertColour, thirdAlertColour)
+                setColor2(newRows[7], 243, 122, 194, 243,305, firstAlertColour, secondAlertColour, thirdAlertColour, fourthAlertColour)
+                setColor(newRows[8], 420, 210, 336, 580, firstAlertColour, secondAlertColour, thirdAlertColour)
+                setColor(newRows[9], 449, 225, 359, 560, firstAlertColour, secondAlertColour, thirdAlertColour)
+                setColor(newRows[10], 430, 215, 344, 430, firstAlertColour, secondAlertColour, thirdAlertColour)
+                setColor(newRows[11], 332, 166, 266, 370, firstAlertColour, secondAlertColour, thirdAlertColour)
+                setColor(newRows[12], 320, 160, 256, 320, firstAlertColour, secondAlertColour, thirdAlertColour)
+                setColor(newRows[13], 560, 280, 448, 638, firstAlertColour, secondAlertColour, thirdAlertColour)
+                setColor2(newRows[14], 275, 138, 220, 275, 375, firstAlertColour, secondAlertColour, thirdAlertColour, fourthAlertColour)
+                setColor2(newRows[15], 300, 150, 240, 300, 613, firstAlertColour, secondAlertColour, thirdAlertColour, fourthAlertColour)
+                setColor(newRows[16], 330, 165, 264, 330, firstAlertColour, secondAlertColour, thirdAlertColour)
+                setColor(newRows[17], 565, 283, 452, 622, firstAlertColour, secondAlertColour, thirdAlertColour)
+                setColor2(newRows[18], 830, 415, 664, 830, 945, firstAlertColour, secondAlertColour, thirdAlertColour, fourthAlertColour)
+                setColor(newRows[19], 692, 346, 554, 813, firstAlertColour, secondAlertColour, thirdAlertColour)
+                setColor(newRows[20], 760, 380, 608, 760, firstAlertColour, secondAlertColour, thirdAlertColour)
+                setColor2(newRows[21], 179, 90, 143, 179, 339, firstAlertColour, secondAlertColour, thirdAlertColour, fourthAlertColour)
+                setColor(newRows[22], 395, 198, 316, 395, firstAlertColour, secondAlertColour, thirdAlertColour)
+                setColor2(newRows[23], 283, 142, 226, 283, 466, firstAlertColour, secondAlertColour, thirdAlertColour, fourthAlertColour)
+                setColor2(newRows[24], 280, 140, 224, 280, 420, firstAlertColour, secondAlertColour, thirdAlertColour, fourthAlertColour)
+                setColor2(newRows[25], 310, 155, 248, 310, 450, firstAlertColour, secondAlertColour, thirdAlertColour, fourthAlertColour)
+                setColor2(newRows[26], 289, 145, 231, 289, 429, firstAlertColour, secondAlertColour, thirdAlertColour, fourthAlertColour)   
             }
 
         }

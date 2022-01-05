@@ -84,7 +84,7 @@ function generateLevel1Table() {
 
 
 url = 'http://shared.concertcloud.com.br/applications/logicBuilder/testefazendaDados'
-
+//url = http://localhost:1880/luiz
 
 
 
@@ -144,8 +144,7 @@ function generateTHead1(table) {
 
 
 function createTable1(table, data) {
-
-
+  
 
 const casa = data
 const new0 = ["Apartamento Bernardo","Apartamento Evando","Apartamento Helena","Apartamento José e Laura","	Unidade Consumidora - SA 1003","Unidade Consumidora - SA 1004","	Unidade Consumidora - SA 1005","	Unidade Geradora - Horta","Unidade Geradora - Orquidario","	Unidade Geradora - Portaria"]
@@ -172,6 +171,7 @@ for (let station of new0) {
     let title0 = document.createTextNode(station)
     cell0.appendChild(title0)
 for (let cliente of temp[x]) {
+
 
     let row2 = table.insertRow();
     let cell2 = row.insertCell()
