@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<head>
+  <meta charset="UTF-8" />
+  <title>Formulário de Cadastro Kaban Cartões</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+  <!--link rel="stylesheet" type="text/css" href="style.css"-- /-->
+  <link rel="stylesheet" type="text/css" href="bootstrap/css/bootstrap.min.css">
+</head>
+<body>
+
+<script src="bootstrap/js/bootstrap.min.js"></script>
+  <div class="container" >
+    <a class="links" id="paracadastro"></a>
+    <a class="links" id="paralogin"></a>
+     
+    <div class="content">      
+      <!--FORMULÁRIO DE LOGIN-->
+      <div id="login">
+        <form method="post" action=""> 
+          <h1>Cadastro de Cartões</h1> 
+          <p> 
+            <label for="nome_login">Título</label>
+        </p>
+            <textarea rows="1" cols="50"></textarea> 
+            <p> 
+            <label for="nome_login">Descrição</label>
+        </p>
+        <p> 
+            <textarea rows="10" cols="50"></textarea> 
+
+            <p> 
+            <label for="nome_login">Responsável</label>
+        </p>
+        <p> 
+            <input id="nome_login" name="responsavel" required="required" type="text" >
+        </p> 
+            <label for="nome_login">Prioridade</label>
+
+            <select name="select">
+                <option value="1"> Baixa</option>
+                <option value="2" selected>Média</option>
+                <option value="3">Alta</option>
+                <option value="4" selected>Urgente</option>
+              </select>
+        </p>
+        <p>
+
+          </p> 
+            <label for="nome_login">Tipo de Cartão</label>
+        </p>
+        <p></p>
+            <input id="nome_login" name="tipo" required="required" type="text" >
+        </p> 
+   </p> 
+            <label for="nome_login">Vencimento</label>
+        </p>
+        <p></p>
+            <input id="nome_login" name="vencimento" required="required" type="date" >
+        </p> 
+                  </p> 
+            <label for="nome_login">Melhoria</label>
+        </p>
+        <p></p>
+            <input id="nome_login" name="melhoria" required="required" type="text" >
+        </p>      
+            <div class="col-auto my-1">
+                <button type="salvar" class="btn btn-primary">Salvar</button>
+              </div>
+          </p>
+           
+        </p>
+    </form>
+  </div>
+</div>
+</div>  
+</body>
+</html>
